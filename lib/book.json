@@ -1,0 +1,46 @@
+    {
+        "volumeInfo": {
+            "title": "Making Sense of the ECG",
+            "subtitle": "A Hands-On Guide",
+            "authors": [
+                "Andrew Houghton"
+            ],
+            "publisher": "CRC Press",
+            "publishedDate": "2025-01-23",
+            "description": "Interpreting an ECG correctly and working out what to do next can seem like a daunting task to the non-specialist, yet it is a skill that will be invaluable to any doctor, nurse or paramedic when evaluating the condition of a patient. Making Sense of the ECG has been written specifically with this in mind and, across multiple editions, has helped students and more experienced healthcare practitioners to identify and answer crucial questions, including: Are these abnormalities significant? How do I distinguish between VT and SVT? Does this patient have an acute coronary syndrome? How do I measure the QT interval? Should I refer this patient to a cardiologist? This popular, easy-to-read and easy-to-remember guide to the ECG as a tool for diagnosis and management has been fully updated in its sixth edition to reflect the latest guidelines, with new chapters added: ‘Reading an ECG Recording’ and 'Ten ECGs Not to Miss’. Key features: Real ECGs – with annotation throughout to highlight key features and new examples included Strong clinical emphasis – for rapid reference in the emergency department, ward or outpatient setting with increased focus on urgency of action required Enhanced summaries and improved tip boxes – for speedy access to key info and advice when to act quickly or seek help New to this edition – reading an ECG recording from first principles added, ten ECG abnormalities with the most serious clinical consequences if missed or misdiagnosed flagged, more detail on ‘normal’ heart rates, cardiac activation and conduction, optimal electrode placement, updated guidance on acute coronary syndromes and cardiopulmonary resuscitation and improved relevance for pre-hospital care Pair with Making Sense of the ECG: Cases for Self Assessment, Third Edition, for the complete ECG learning and revision package!",
+            "industryIdentifiers": [
+                {
+                    "type": "ISBN_13",
+                    "identifier": "9781040225776"
+                },
+                {
+                    "type": "ISBN_10",
+                    "identifier": "1040225772"
+                }
+            ],
+            "readingModes": {
+                "text": false,
+                "image": true
+            },
+            "pageCount": 287,
+            "printType": "BOOK",
+            "categories": [
+                "Medical"
+            ],
+            "maturityRating": "NOT_MATURE",
+            "allowAnonLogging": false,
+            "contentVersion": "0.1.0.0.preview.1",
+            "panelizationSummary": {
+                "containsEpubBubbles": false,
+                "containsImageBubbles": false
+            },
+            "imageLinks": {
+                "smallThumbnail": "http://books.google.com/books/content?id=jiIzEQAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+                "thumbnail": "http://books.google.com/books/content?id=jiIzEQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+            },
+            "language": "en",
+            "previewLink": "http://books.google.com/books?id=jiIzEQAAQBAJ&pg=PA173&dq=flutter:keyes&hl=&cd=1&source=gbs_api",
+            "infoLink": "http://books.google.com/books?id=jiIzEQAAQBAJ&dq=flutter:keyes&hl=&source=gbs_api",
+            "canonicalVolumeLink": "https://books.google.com/books/about/Making_Sense_of_the_ECG.html?hl=&id=jiIzEQAAQBAJ"
+        }
+    }
