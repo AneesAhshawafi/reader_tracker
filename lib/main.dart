@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:reader_tracker/business_logic/providers/book_provider.dart';
-import 'package:reader_tracker/data/repository/book_repositiry.dart';
-import 'package:reader_tracker/data/web_services/book_web_service.dart';
-import 'package:reader_tracker/main_screen.dart';
+import 'package:reader_tracker/app_router.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (BuildContext context) => BookProvider(
-        bookRepositiry: BookRepositiry(bookWebService: BookWebService()),
-      ),
-      child: MainApp(),
-    ),
-  );
+  runApp(MainApp(appRouter: AppRouter()));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final AppRouter appRouter;
+  const MainApp({super.key, required this.appRouter});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +17,8 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
-      home: MainScreen(),
+      onGenerateRoute: appRouter.generateRoute,
+      // home: MainScreen(),
     );
   }
 }
