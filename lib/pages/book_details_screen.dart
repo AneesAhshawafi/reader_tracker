@@ -19,85 +19,109 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
         title: Text("Book Details"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: Center(
-        child: Container(
-          width: double.infinity,
-          // color: Theme.of(context).colorScheme.secondary,
-          // padding: EdgeInsets.symmetric(horizontal: 5),
-          child: ListView(
-            children: [
-              // Wrap with Expanded so it takes the available Column height
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: ClipRRect(
-              //     borderRadius: BorderRadius.circular(6),
-              //     child: WebCORSImage(
-              //       width: 200,
-              //       imageUrl: widget.book.imageLinks['thumbnail']!,
-              //       // fit: BoxFit.cover,
-              //     ),
-              //   ),
-              // ),
-              Padding(
-                padding: EdgeInsetsGeometry.all(8.0),
+      body: SingleChildScrollView(
+        child: Center(
+          child: SizedBox(
+            width: double.infinity,
+            // color: Theme.of(context).colorScheme.secondary,
+            // padding: EdgeInsets.symmetric(horizontal: 5),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsetsGeometry.all(8.0),
 
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: WebCORSImage(
-                    width: 200,
-                    height: 250,
-                    imageUrl: widget.book.imageLinks['thumbnail']!,
-                    fit: BoxFit.contain,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: WebCORSImage(
+                      width: 200,
+                      height: 250,
+                      imageUrl: widget.book.imageLinks['thumbnail']!,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.book.title,
-                  textAlign: TextAlign.center,
-                  style: textTheme2.headlineLarge,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+                TextWidget(
+                  text: widget.book.title,
+                  textStyle: textTheme2.titleLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.book.authors.isNotEmpty
-                      ? widget.book.authors.join(', & ')
-                      : '',
-                  textAlign: TextAlign.center,
-                  style: textTheme2.bodyLarge,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+                TextWidget(
+                  text: "Author/s:${widget.book.authors.join(', & ')}",
+                  textStyle: textTheme2.bodyMedium!,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Text(
-                  widget.book.publishedDate.isNotEmpty
-                      ? "Published Date: ${widget.book.publishedDate}"
-                      : '',
-                  textAlign: TextAlign.center,
-                  style: textTheme2.bodyMedium,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+                TextWidget(
+                  text: "Published Date: ${widget.book.publishedDate}",
+                  textStyle: textTheme2.bodyLarge!,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Text(
-                  "Language: ${widget.book.language}",
-                  textAlign: TextAlign.center,
-                  style: textTheme2.bodyMedium,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+
+                TextWidget(
+                  text: "Language: ${widget.book.language}",
+                  textStyle: textTheme2.bodyMedium!,
                 ),
-              ),
-            ],
+                SizedBox(height: 20),
+                Row(
+                  spacing: 20,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.save),
+                      label: Text("Saved"),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.favorite),
+                      label: Text("Favorites"),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                TextWidget(
+                  text: "Description",
+                  textStyle: textTheme2.titleMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.symmetric(horizontal: 30),
+
+                  decoration: BoxDecoration(
+                    // color: Colors.grey,
+                    color: Theme.of(context).colorScheme.onInverseSurface,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(width: 2, color: Colors.black87),
+                  ),
+                  child: Text(widget.book.description),
+                ),
+                SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TextWidget extends StatelessWidget {
+  const TextWidget({super.key, required this.text, required this.textStyle});
+
+  final String text;
+  final TextStyle textStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: textStyle,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
       ),
     );
   }
