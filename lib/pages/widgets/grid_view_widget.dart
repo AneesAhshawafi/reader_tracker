@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reader_tracker/business_logic/providers/book_provider.dart';
 import 'package:reader_tracker/constants/strings.dart';
 import 'package:reader_tracker/data/models/book.dart';
-import 'package:reader_tracker/pages/widgets/web_cros_image.dart';
+// import 'package:reader_tracker/pages/widgets/web_cros_image.dart';
 
 class GridViewWidget extends StatelessWidget {
   const GridViewWidget({super.key, required this.bookProvider});
@@ -51,11 +51,12 @@ class GridViewWidget extends StatelessWidget {
                     Expanded(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(6),
-                        child: WebCORSImage(
-                          width: 200,
-                          imageUrl: imageUrl,
-                          fit: BoxFit.contain,
-                        ),
+                        child: Image.network(imageUrl, fit: BoxFit.contain),
+                        // WebCORSImage(
+                        //   width: 200,
+                        //   imageUrl: imageUrl,
+                        //   fit: BoxFit.contain,
+                        // ),
                       ),
                     ),
                     Padding(

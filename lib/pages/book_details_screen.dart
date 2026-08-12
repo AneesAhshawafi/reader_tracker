@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reader_tracker/data/models/book.dart';
-import 'package:reader_tracker/pages/widgets/web_cros_image.dart';
+// import 'package:reader_tracker/pages/widgets/web_cros_image.dart';
 
 class BookDetailsScreen extends StatefulWidget {
   final Book book;
@@ -32,12 +32,16 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
 
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: WebCORSImage(
-                      width: 200,
-                      height: 250,
-                      imageUrl: widget.book.imageLinks['thumbnail']!,
+                    child: Image.network(
+                      widget.book.imageLinks['thumbnail']!,
                       fit: BoxFit.contain,
                     ),
+                    // WebCORSImage(
+                    //   width: 200,
+                    //   height: 250,
+                    //   imageUrl: widget.book.imageLinks['thumbnail']!,
+                    //   fit: BoxFit.contain,
+                    // ),
                   ),
                 ),
                 TextWidget(
