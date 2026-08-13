@@ -52,35 +52,35 @@ class Book {
     };
   }
 
-  // factory Book.fromJson(Map<String, dynamic> json) {
-  //   var volumeInfo = json['volumeInfo'] ?? {};
-  //   return Book(
-  //     id: json['id'] ?? '',
-  //     title: volumeInfo['title'] ?? '',
-  //     authors: (volumeInfo['authors'] as List<dynamic>? ?? [])
-  //         .map((author) => author.toString())
-  //         .toList(),
-  //     publisher: volumeInfo['publisher'] ?? '',
-  //     publishedDate: volumeInfo['publishedDate'] ?? '',
-  //     description: volumeInfo['description'] ?? '',
-  //     industryIdentifiers: {
-  //       for (var item
-  //           in volumeInfo['industryIdentifiers'] as List<dynamic>? ?? [])
-  //         item['type'] as String? ?? '': item['identifier'] as String? ?? '',
-  //     },
-  //     pageCount: volumeInfo['pageCount'] ?? 0,
-  //     language: volumeInfo['language'] ?? '',
-  //     imageLinks: (volumeInfo['imageLinks'] as Map<String, dynamic>? ?? {}).map(
-  //       (key, value) => MapEntry(key, value.toString()),
-  //     ),
-  //     previewLink: volumeInfo['previewLink'] ?? '',
-  //     infoLink: volumeInfo['infoLink'] ?? '',
-  //   );
-  // }
   factory Book.fromJson(Map<String, dynamic> json) {
     var volumeInfo = json['volumeInfo'] ?? {};
-    return Book.fromJsonDatabase(volumeInfo);
+    return Book(
+      id: json['id'] ?? '',
+      title: volumeInfo['title'] ?? '',
+      authors: (volumeInfo['authors'] as List<dynamic>? ?? [])
+          .map((author) => author.toString())
+          .toList(),
+      publisher: volumeInfo['publisher'] ?? '',
+      publishedDate: volumeInfo['publishedDate'] ?? '',
+      description: volumeInfo['description'] ?? '',
+      industryIdentifiers: {
+        for (var item
+            in volumeInfo['industryIdentifiers'] as List<dynamic>? ?? [])
+          item['type'] as String? ?? '': item['identifier'] as String? ?? '',
+      },
+      pageCount: volumeInfo['pageCount'] ?? 0,
+      language: volumeInfo['language'] ?? '',
+      imageLinks: (volumeInfo['imageLinks'] as Map<String, dynamic>? ?? {}).map(
+        (key, value) => MapEntry(key, value.toString()),
+      ),
+      previewLink: volumeInfo['previewLink'] ?? '',
+      infoLink: volumeInfo['infoLink'] ?? '',
+    );
   }
+  // factory Book.fromJson(Map<String, dynamic> json) {
+  //   var volumeInfo = json['volumeInfo'] ?? {};
+  //   return Book.fromJsonDatabase(volumeInfo);
+  // }
   // for loading from db
   factory Book.fromJsonDatabase(Map<String, dynamic> jsonObject) {
     return Book(

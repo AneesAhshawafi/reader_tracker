@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: bookProvider.isLoading
                 ? CircularProgressIndicator()
                 : bookProvider.books.isNotEmpty
-                ? GridViewWidget(bookProvider: bookProvider)
+                ? GridViewWidget(books: bookProvider.books)
                 : Text("Search for books"),
           ),
         ],

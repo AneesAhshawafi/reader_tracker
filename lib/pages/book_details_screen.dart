@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reader_tracker/data/db/database_helper.dart';
 import 'package:reader_tracker/data/models/book.dart';
 // import 'package:reader_tracker/pages/widgets/web_cros_image.dart';
 
@@ -69,7 +70,32 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () async {
+                        try {
+                          int saved = await DatabaseHelper.getInstance.insert(
+                            widget.book,
+                          );
+                          SnackBar snackBar = SnackBar(
+                            content: Text("Book saved $saved"),
+                          );
+                          if (mounted) {
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(snackBar);
+                          }
+                        } catch (e) {
+                          SnackBar snackBar = SnackBar(
+                            content: Text(
+                              "error happend while saving the book: ${e.toString()} ",
+                            ),
+                          );
+                          if (mounted) {
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(snackBar);
+                          }
+                        }
+                      },
                       icon: Icon(Icons.save),
                       label: Text("Saved"),
                     ),
