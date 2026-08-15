@@ -60,4 +60,32 @@ class DatabaseHelper {
         ? books.map((bookData) => Book.fromJsonDatabase(bookData)).toList()
         : [];
   }
+
+  Future<int> toggleFavoritesStatus(String id, bool isFavorite) async {
+    Database db = await getInstance.database;
+    return await db.update(
+      _tableName,
+      {'favorite': isFavorite ? 1 : 0},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<bool> isFavorite(String id) async {
+    Database db = await getInstance.database;
+    dynamic book = await db.query(
+      _databaseName,
+      where: 'id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+    book = Book.fromJsonDatabase(book[0]);
+
+    // books = books.isNotEmpty ? books.map((bookData)=>Book.fromJsonDatabase(bookData)).toList() : [];
+    //  books = books.isNotEmpty
+    //     ? books.map((bookData) => Book.fromJsonDatabase(bookData)).toList()
+    //     : [];
+    bool isFavorite = book.isFavorite;
+    return isFavorite;
+  }
 }

@@ -13,11 +13,7 @@ class BookProvider extends ChangeNotifier {
   List<Book> get books => _books;
   List<Book> get savedBooks => _savedBooks;
   BookProvider({required this.bookRepositiry});
-  // void changeLoading() {
-  //   _isLoading = !_isLoading;
-  //   notifyListeners();
-  // }
-
+  
   Future<void> loadBooks(String query) async {
     _isLoading = true;
     notifyListeners();
@@ -33,4 +29,20 @@ class BookProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  Future<void> toggleFavoritesStatus(String id, bool isFavorite) async {
+    final newStatus = !isFavorite;
+    await DatabaseHelper.getInstance.toggleFavoritesStatus(id, newStatus);
+
+    // Update in-memory list
+    final index = _books.indexWhere((b) => b.id == id);
+    if (index != -1) {
+      _books[index].isFavorite = newStatus;
+    }
+
+    await loadSavedBooks();
+    notifyListeners();
+  }
+
+ 
 }

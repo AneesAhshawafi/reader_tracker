@@ -27,28 +27,13 @@ class _SavedScreenState extends State<SavedScreen> {
     return Center(
       child: Column(
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: TextField(
-          //     decoration: const InputDecoration(
-          //       hintText: "Search for books ...",
-          //       suffixIcon: Icon(Icons.search),
-          //       border: OutlineInputBorder(
-          //         borderRadius: BorderRadius.all(Radius.circular(10)),
-          //       ),
-          //     ),
-          //     onSubmitted: (query) {
-          //       searchForBooks(query);
-          //     },
-          //   ),
-          // ),
           SizedBox(height: 10),
           Container(
             // margin: EdgeInsets.only(top: 10),
             child: bookProvider.isLoading
                 ? CircularProgressIndicator()
                 : bookProvider.books.isNotEmpty
-                ? GridViewWidget(books: bookProvider.savedBooks)
+                ? GridViewWidget(bookProvider: bookProvider, isSaved: true)
                 : Text("No saved books yet"),
           ),
         ],

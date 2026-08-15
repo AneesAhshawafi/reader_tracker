@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:reader_tracker/business_logic/providers/book_provider.dart';
 import 'package:reader_tracker/constants/strings.dart';
 import 'package:reader_tracker/data/models/book.dart';
-// import 'package:reader_tracker/pages/widgets/web_cros_image.dart';
 
-class GridViewWidget extends StatelessWidget {
-  const GridViewWidget({super.key, required this.books});
+class GridViewWidget extends StatefulWidget {
+  const GridViewWidget({
+    super.key,
+    required this.bookProvider,
+    this.isSaved = false,
+  });
 
-  final List<Book> books;
+  final BookProvider bookProvider;
+  final bool isSaved;
 
   @override
+  State<GridViewWidget> createState() => _GridViewWidgetState();
+}
+
+class _GridViewWidgetState extends State<GridViewWidget> {
+  @override
   Widget build(BuildContext context) {
+    final bookProvider = Provider.of<BookProvider>(context);
+    final booksList = widget.isSaved
+        ? bookProvider.savedBooks
+        : bookProvider.books;
     return Expanded(
       child: SizedBox(
         width: double.infinity,
@@ -18,9 +33,9 @@ class GridViewWidget extends StatelessWidget {
             crossAxisCount: 2,
             childAspectRatio: 0.8,
           ),
-          itemCount: books.length,
+          itemCount: booksList.length,
           itemBuilder: (context, index) {
-            Book book = books[index];
+            Book book = booksList[index];
 
             String imageUrl = book.imageLinks['thumbnail'] ?? '';
             if (imageUrl.startsWith('http://')) {
@@ -51,11 +66,6 @@ class GridViewWidget extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(6),
                         child: Image.network(imageUrl, fit: BoxFit.contain),
-                        // WebCORSImage(
-                        //   width: 200,
-                        //   imageUrl: imageUrl,
-                        //   fit: BoxFit.contain,
-                        // ),
                       ),
                     ),
                     Padding(
@@ -80,7 +90,23 @@ class GridViewWidget extends StatelessWidget {
                         maxLines: 1,
                       ),
                     ),
-                    // If you add Title/Text below the image later, it will sit here cleanly
+                    widget.isSaved
+                        ? IconButton(
+                            onPressed: () async {
+                              await widget.bookProvider.toggleFavoritesStatus(
+                                book.id,
+                                book.isFavorite,
+                              );
+                            },
+                            icon: Icon(
+                              book.isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border_outlined,
+                              color: Colors.redAccent,
+                              size: 30,
+                            ),
+                          )
+                        : Text(""),
                   ],
                 ),
               ),
