@@ -14,26 +14,24 @@ class _SavedScreenState extends State<SavedScreen> {
   @override
   void initState() {
     super.initState();
-    loadSavedBooks();
-  }
-
-  Future<void> loadSavedBooks() async {
-    await Provider.of<BookProvider>(context, listen: false).loadSavedBooks();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<BookProvider>().loadSavedBooks();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final bookProvider = Provider.of<BookProvider>(context);
+    final bookProvider = context.watch<BookProvider>();
     return Center(
       child: Column(
         children: [
           SizedBox(height: 10),
           Container(
             // margin: EdgeInsets.only(top: 10),
-            child: bookProvider.isLoading
+            child: bookProvider.isSavedLoading
                 ? CircularProgressIndicator()
-                : bookProvider.books.isNotEmpty
-                ? GridViewWidget(bookProvider: bookProvider, isSaved: true)
+                : bookProvider.savedBooks.isNotEmpty
+                ? GridViewWidget(isSaved: true)
                 : Text("No saved books yet"),
           ),
         ],

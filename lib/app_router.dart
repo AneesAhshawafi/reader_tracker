@@ -9,24 +9,23 @@ import 'package:reader_tracker/main_screen.dart';
 import 'package:reader_tracker/pages/book_details_screen.dart';
 
 class AppRouter {
+  BookProvider bookProvider = BookProvider(
+    bookRepositiry: BookRepositiry(bookWebService: BookWebService()),
+  );
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case homeScreenRoute:
         return MaterialPageRoute(
-          builder: (_) => ChangeNotifierProvider(
-            create: (BuildContext context) => BookProvider(
-              bookRepositiry: BookRepositiry(bookWebService: BookWebService()),
-            ),
+          builder: (_) => ChangeNotifierProvider.value(
+            value: bookProvider,
             child: MainScreen(),
           ),
         );
       case bookDetailsScreenRoute:
         Book book = settings.arguments as Book;
         return MaterialPageRoute(
-          builder: (_) => ChangeNotifierProvider(
-            create: (_) => BookProvider(
-              bookRepositiry: BookRepositiry(bookWebService: BookWebService()),
-            ),
+          builder: (_) => ChangeNotifierProvider.value(
+            value: bookProvider,
             child: BookDetailsScreen(book: book),
           ),
         );

@@ -7,12 +7,12 @@ import 'package:reader_tracker/data/models/book.dart';
 class GridViewWidget extends StatefulWidget {
   const GridViewWidget({
     super.key,
-    required this.bookProvider,
     this.isSaved = false,
+    this.isFavorite = false,
   });
 
-  final BookProvider bookProvider;
   final bool isSaved;
+  final bool isFavorite;
 
   @override
   State<GridViewWidget> createState() => _GridViewWidgetState();
@@ -24,6 +24,8 @@ class _GridViewWidgetState extends State<GridViewWidget> {
     final bookProvider = Provider.of<BookProvider>(context);
     final booksList = widget.isSaved
         ? bookProvider.savedBooks
+        : widget.isFavorite
+        ? bookProvider.favoritesBooks
         : bookProvider.books;
     return Expanded(
       child: SizedBox(
@@ -91,12 +93,122 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                       ),
                     ),
                     widget.isSaved
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.inversePrimary,
+                              border: Border.all(
+                                width: 2,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  onPressed: () async {
+                                    try {
+                                      await bookProvider.toggleFavoritesStatus(
+                                        book,
+                                      );
+                                      SnackBar snackBar = SnackBar(
+                                        content: Text(
+                                          book.isFavorite
+                                              ? "Book was added to favorites"
+                                              : "Book was removed from favorites",
+                                        ),
+                                        duration: Duration(seconds: 1),
+                                      );
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(snackBar);
+                                      }
+                                    } catch (e) {
+                                      SnackBar snackBar = SnackBar(
+                                        content: Text(
+                                          "error happend while toggling the book: ${e.toString()} ",
+                                        ),
+                                      );
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(snackBar);
+                                      }
+                                    }
+                                  },
+                                  icon: Icon(
+                                    book.isFavorite
+                                        ? Icons.favorite
+                                        : Icons.favorite_border_outlined,
+                                    color: Colors.redAccent,
+                                    size: 30,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    try {
+                                      await bookProvider.deleteBook(book.id);
+                                      SnackBar snackBar = SnackBar(
+                                        content: Text("Book was deleted"),
+                                        duration: Duration(seconds: 1),
+                                      );
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(snackBar);
+                                      }
+                                    } catch (e) {
+                                      SnackBar snackBar = SnackBar(
+                                        content: Text(
+                                          "error happend while saving the book: ${e.toString()} ",
+                                        ),
+                                      );
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(snackBar);
+                                      }
+                                    }
+                                  },
+                                  icon: Icon(Icons.delete),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Text(""),
+                    widget.isFavorite
                         ? IconButton(
                             onPressed: () async {
-                              await widget.bookProvider.toggleFavoritesStatus(
-                                book.id,
-                                book.isFavorite,
-                              );
+                              try {
+                                await bookProvider.toggleFavoritesStatus(book);
+                                SnackBar snackBar = SnackBar(
+                                  content: Text(
+                                    book.isFavorite
+                                        ? "Book was added to favorites"
+                                        : "Book was removed from favorites",
+                                  ),
+                                  duration: Duration(seconds: 1),
+                                );
+                                if (mounted) {
+                                  ScaffoldMessenger.of(
+                                    context,
+                                  ).showSnackBar(snackBar);
+                                }
+                              } catch (e) {
+                                SnackBar snackBar = SnackBar(
+                                  content: Text(
+                                    "error happend while toggling the book: ${e.toString()} ",
+                                  ),
+                                );
+                                if (mounted) {
+                                  ScaffoldMessenger.of(
+                                    context,
+                                  ).showSnackBar(snackBar);
+                                }
+                              }
                             },
                             icon: Icon(
                               book.isFavorite

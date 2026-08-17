@@ -10,6 +10,7 @@ class DatabaseHelper {
   static const _tableName = 'books';
 
   DatabaseHelper._privateConstructor();
+  // singleton pattern
   static final DatabaseHelper getInstance =
       DatabaseHelper._privateConstructor();
   static Database? _database;
@@ -49,8 +50,25 @@ class DatabaseHelper {
   }
 
   Future<int> insert(Book book) async {
+    if (!await isSaved(book.id)) {
+      Database db = await getInstance.database;
+      return await db.insert(_tableName, book.toJson());
+    }
+    return 0;
+  }
+
+  Future<bool> isSaved(String id) async {
     Database db = await getInstance.database;
-    return await db.insert(_tableName, book.toJson());
+    dynamic book = await db.query(
+      _tableName,
+      where: 'id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+    if (!book.isNotEmpty) {
+      return false;
+    }
+    return true;
   }
 
   Future<List<Book>> readAllBooks() async {
@@ -80,12 +98,22 @@ class DatabaseHelper {
       limit: 1,
     );
     book = Book.fromJsonDatabase(book[0]);
-
-    // books = books.isNotEmpty ? books.map((bookData)=>Book.fromJsonDatabase(bookData)).toList() : [];
-    //  books = books.isNotEmpty
-    //     ? books.map((bookData) => Book.fromJsonDatabase(bookData)).toList()
-    //     : [];
     bool isFavorite = book.isFavorite;
     return isFavorite;
+  }
+
+  Future<int> deleteBook(String id) async {
+    Database db = await getInstance.database;
+    return await db.delete(_tableName, where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<List<Book>> getFavorites() async {
+    Database db = await getInstance.database;
+    final favoritesBooks = await db.query(_tableName, where: 'favorite = 1');
+    return favoritesBooks.isNotEmpty
+        ? favoritesBooks
+              .map((favoritesBook) => Book.fromJsonDatabase(favoritesBook))
+              .toList()
+        : [];
   }
 }

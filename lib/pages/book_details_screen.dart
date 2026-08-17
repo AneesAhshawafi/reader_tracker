@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:reader_tracker/business_logic/providers/book_provider.dart';
 import 'package:reader_tracker/data/db/database_helper.dart';
 import 'package:reader_tracker/data/models/book.dart';
 // import 'package:reader_tracker/pages/widgets/web_cros_image.dart';
@@ -15,6 +17,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     var textTheme2 = Theme.of(context).textTheme;
+    final bookProvider = Provider.of<BookProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Book Details"),
@@ -76,7 +79,11 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                             widget.book,
                           );
                           SnackBar snackBar = SnackBar(
-                            content: Text("Book saved $saved"),
+                            content: Text(
+                              saved == 0
+                                  ? "Book already exists!"
+                                  : "Book saved $saved",
+                            ),
                           );
                           if (mounted) {
                             ScaffoldMessenger.of(
@@ -100,8 +107,40 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       label: Text("Saved"),
                     ),
                     ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: Icon(Icons.favorite),
+                      onPressed: () async {
+                        try {
+                          await bookProvider.toggleFavoritesStatus(widget.book);
+                          SnackBar snackBar = SnackBar(
+                            content: Text(
+                              widget.book.isFavorite
+                                  ? "Book was added to favorites"
+                                  : "Book was removed from favorites",
+                            ),
+                            duration: Duration(seconds: 1),
+                          );
+                          if (mounted) {
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(snackBar);
+                          }
+                        } catch (e) {
+                          SnackBar snackBar = SnackBar(
+                            content: Text(
+                              "error happend while toggling the book: ${e.toString()} ",
+                            ),
+                          );
+                          if (mounted) {
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(snackBar);
+                          }
+                        }
+                      },
+                      icon: Icon(
+                        widget.book.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
+                      ),
                       label: Text("Favorites"),
                     ),
                   ],
